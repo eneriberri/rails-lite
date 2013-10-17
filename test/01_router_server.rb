@@ -31,6 +31,7 @@ class UserController < ControllerBase
 end
 
 server.mount_proc '/' do |req, res|
+	p "path #{req.path}"
   router = Router.new
   router.draw do
     get Regexp.new("^/statuses$"), StatusController, :index

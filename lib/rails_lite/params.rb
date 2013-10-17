@@ -27,14 +27,15 @@ class Params
 		key_val_arr = URI.decode_www_form(www_encoded_form)
 		key_val_arr.each do |nested_key, val|
 			nested = params
-
 			keys = parse_key(nested_key)
-			keys.each_with_index do |key, i|
-				if i == keys.length - 1
+			count = 0
+			keys.each do |key|
+				if count == keys.length - 1
 					nested[key] = val
 				else
 					nested[key] ||= {}
 					nested = nested[key]
+					count += 1
 				end
 			end
 		end
@@ -49,135 +50,3 @@ class Params
 		return nested
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#   private
-#   def parse_www_encoded_form(www_encoded_form)
-#     params = {}
-#
-#     key_values = URI.decode_www_form(www_encoded_form)
-#     key_values.each do |full_key, value|
-#       scope = params
-#
-#       key_seq = parse_key(full_key)
-#       key_seq.each_with_index do |key, idx|
-#         if (idx + 1) == key_seq.count
-#           scope[key] = value
-#         else
-#           scope[key] ||= {}
-#           scope = scope[key]
-#         end
-#       end
-#     end
-#
-#     params
-# #   end
-
-
-
-
-
-#  def parse_key(key)
-#     match_data = /(?<head>.*)\[(?<rest>.*)\]/.match(key)
-#     if match_data
-#       parse_key(match_data["rest"]).unshift(match_data["head"])
-#     else
-#       [key]
-#     end
-#   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def initialize(req, route_params)
-#     @params = {}
-#
-#     @params.merge!(route_params)
-#     if req.body
-#       @params.merge!(parse_www_encoded_form(req.body))
-#     end
-#     if req.query_string
-#       @params.merge!(parse_www_encoded_form(req.query_string))
-#     end
-#   end
-#
-#   def [](key)
-#     @params[key]
-#   end
-#
-#   def to_s
-#     @params.to_json.to_s
-#   end
-#
-#   private
-#   def parse_www_encoded_form(www_encoded_form)
-#     params = {}
-#
-#     key_values = URI.decode_www_form(www_encoded_form)
-#     key_values.each do |full_key, value|
-#       scope = params
-#
-#       key_seq = parse_key(full_key)
-#       key_seq.each_with_index do |key, idx|
-#         if (idx + 1) == key_seq.count
-#           scope[key] = value
-#         else
-#           scope[key] ||= {}
-#           scope = scope[key]
-#         end
-#       end
-#     end
-#
-#     params
-# #   end
-#
-#   def parse_key(key)
-#     match_data = /(?<head>.*)\[(?<rest>.*)\]/.match(key)
-#     if match_data
-#       parse_key(match_data["rest"]).unshift(match_data["head"])
-#     else
-#       [key]
-#     end
-#   end
-#end
